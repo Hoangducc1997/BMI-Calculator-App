@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
+using System.IO;
 
 public class Students : MonoBehaviour
 {
@@ -101,14 +102,13 @@ public class Students : MonoBehaviour
         }
     }
 
-
     private void BmiBar()
     {
         
         double BmiCalculation = weight / ((height / 100) * (height / 100));
         if (BmiCalculation > 0 && BmiCalculation < 18.5)
         {
-            BmiResultBar.value = 1;
+            BmiResultBar.value = 0.9f;
         }
         else if (BmiCalculation >= 18.5 && BmiCalculation <= 24.9)
         {
@@ -139,23 +139,23 @@ public class Students : MonoBehaviour
         double BmiCalculation = weight / ((height / 100) * (height / 100));
         if (BmiCalculation > 0 && BmiCalculation < 18.5)
         {
-            BmiResult.text = BmiCalculation.ToString("F2") + " > UNDERWEIGHT";
+            BmiResult.text = BmiCalculation.ToString("F2") + " : UNDERWEIGHT";
         }
         else if (BmiCalculation >= 18.5 && BmiCalculation <= 24.9)
         {
-            BmiResult.text = BmiCalculation.ToString("F2") + " > NORMAL";
+            BmiResult.text = BmiCalculation.ToString("F2") + " : NORMAL";
         }
         else if (BmiCalculation >= 25 && BmiCalculation <= 29.9)
         {
-            BmiResult.text = BmiCalculation.ToString("F2") + " > OVERWEIGHT";
+            BmiResult.text = BmiCalculation.ToString("F2") + " : OVERWEIGHT";
         }
         else if (BmiCalculation >= 30 && BmiCalculation <= 34.9)
         {
-            BmiResult.text = BmiCalculation.ToString("F2") + " > OBESE";
+            BmiResult.text = BmiCalculation.ToString("F2") + " : OBESE";
         }
         else if (BmiCalculation >= 35)
         {
-            BmiResult.text = BmiCalculation.ToString("F2") + " > EXTREMELY OBESE";
+            BmiResult.text = BmiCalculation.ToString("F2") + " : EXTREMELY OBESE";
         }
         else
         {
@@ -179,7 +179,21 @@ public class Students : MonoBehaviour
         SexResult.text = sexChoice.ToString();
         BMI();
         BmiBar();
-        
+
+        WriteToFile($"Name: {NameResult.text} \nID: {IdResult.text} \nDay of Birth: {DobResult.text} \nWEIGHT: {WeightResult.text} \nHEIGHT: {HeightResult.text} \nSEX: {SexResult.text} \n -> BMI: {BmiResult.text}");
     }
-    
+
+    private string outputPath = "C:\\Users\\HP\\Documents\\BMI Student.txt"; // Đường dẫn tới tệp văn bản xuất ra
+
+
+    // Hàm ghi dữ liệu vào tệp văn bản
+    private void WriteToFile(string data)
+    {
+        // Mở tệp để ghi
+        using (StreamWriter writer = new StreamWriter(outputPath, true))
+        {
+            // Ghi dữ liệu vào tệp
+            writer.WriteLine(data);
+        }
+    }
 }
