@@ -18,8 +18,6 @@ public class Students : MonoBehaviour
     public InputField WeightStudent;
     public Slider BmiResultBar;
 
-
-
     //Output
     public Button result;
 
@@ -62,14 +60,13 @@ public class Students : MonoBehaviour
         }
     }
 
-
     public int AgeCalculation()
     {
         DateTime DOB;
         if (!DateTime.TryParseExact(DOBStudent.text, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out DOB))
         {
             Debug.Log("Invalid date format. Please enter date in dd/MM/yyyy format.");
-            return 0; // Trả về giá trị không hợp lệ nếu không thể chuyển đổi
+            return 0;
         }
 
         DateTime now = DateTime.Now;
@@ -77,7 +74,6 @@ public class Students : MonoBehaviour
         if (now < DOB.AddYears(age)) age--;
         return age;
     }
-
 
     public void SexChoice()
     {
@@ -131,7 +127,6 @@ public class Students : MonoBehaviour
             BmiResultBar.value = 0;
         }
     }
-
     public void BMI()
     {
         Weight(); // Update weight value
@@ -163,7 +158,6 @@ public class Students : MonoBehaviour
         }
     }
 
-
     public void Result()
     {
         NameResult.text = NameStudent.text;
@@ -174,25 +168,21 @@ public class Students : MonoBehaviour
         Height(); // Update height value
         WeightResult.text = weight.ToString() + " KILOGRAMS";
         HeightResult.text = height.ToString() + " CENTIMETERS";
-       
         SexChoice();
         SexResult.text = sexChoice.ToString();
         BMI();
         BmiBar();
-
-        WriteToFile($"Name: {NameResult.text} \nID: {IdResult.text} \nDay of Birth: {DobResult.text} \nWEIGHT: {WeightResult.text} \nHEIGHT: {HeightResult.text} \nSEX: {SexResult.text} \n -> BMI: {BmiResult.text}");
+        //Output in Text 
+        WriteToFile($"Name: {NameResult.text} \nID: {IdResult.text} \nDay of Birth: {DobResult.text} \nWEIGHT: {WeightResult.text} \nHEIGHT: {HeightResult.text} \nSEX: {SexResult.text} \n -> BMI: {BmiResult.text}\n");
     }
 
+    //Create Text
     private string outputPath = "C:\\Users\\HP\\Documents\\BMI Student.txt"; // Đường dẫn tới tệp văn bản xuất ra
 
-
-    // Hàm ghi dữ liệu vào tệp văn bản
     private void WriteToFile(string data)
-    {
-        // Mở tệp để ghi
+    {  
         using (StreamWriter writer = new StreamWriter(outputPath, true))
         {
-            // Ghi dữ liệu vào tệp
             writer.WriteLine(data);
         }
     }
